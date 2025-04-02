@@ -15,7 +15,9 @@ export function ReportGenerator() {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
+
+      {/* Report Type */}
+      {/* <div className="space-y-2">
         <h3 className="text-lg font-medium">Report Type</h3>
         <RadioGroup defaultValue="weekly" className="flex space-x-4" onValueChange={setReportType} value={reportType}>
           <div className="flex items-center space-x-2">
@@ -35,11 +37,11 @@ export function ReportGenerator() {
             <Label htmlFor="custom">Custom Date Range</Label>
           </div>
         </RadioGroup>
-      </div>
+      </div> */}
 
-      <Separator />
-
-      <div className="space-y-2">
+      {/* <Separator /> */}
+{/* Report Content */}
+      {/* <div className="space-y-2">
         <h3 className="text-lg font-medium">Report Content</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
@@ -80,11 +82,12 @@ export function ReportGenerator() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <Separator />
+      {/* <Separator /> */}
 
-      <div className="space-y-2">
+{/* Filters */}
+      {/* <div className="space-y-2">
         <h3 className="text-lg font-medium">Filters</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
@@ -103,6 +106,7 @@ export function ReportGenerator() {
               </SelectContent>
             </Select>
           </div>
+
 
           <div className="space-y-2">
             <Label htmlFor="department-filter">Department</Label>
@@ -133,7 +137,7 @@ export function ReportGenerator() {
             </Select>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <Separator />
 

@@ -25,10 +25,11 @@ export function ReportsPage() {
         <Tabs defaultValue="generate" className="space-y-4">
           <TabsList>
             <TabsTrigger value="generate">Generate Reports</TabsTrigger>
-            <TabsTrigger value="saved">Saved Reports</TabsTrigger>
+            {/* <TabsTrigger value="saved">Saved Reports</TabsTrigger> */}
           </TabsList>
           <TabsContent value="generate" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* AgentPerformance */}
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Agent Performance</CardTitle>
@@ -37,14 +38,15 @@ export function ReportsPage() {
                 <CardContent>
                   <div className="text-sm">Detailed performance metrics for all agents or individual agents.</div>
                 </CardContent>
-                <CardFooter>
-                  <Button className="w-full" size="sm">
+               <CardFooter>
+                  {/* <Button className="w-full" size="sm">
                     <FileText className="mr-2 h-4 w-4" />
                     Generate
-                  </Button>
+                  </Button> */}
                 </CardFooter>
               </Card>
 
+{/* FeedBack Summary */}
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Feedback Summary</CardTitle>
@@ -54,13 +56,14 @@ export function ReportsPage() {
                   <div className="text-sm">Summary of all feedback with sentiment analysis and ratings.</div>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full" size="sm">
+                  {/* <Button className="w-full" size="sm">
                     <FileText className="mr-2 h-4 w-4" />
                     Generate
-                  </Button>
+                  </Button> */}
                 </CardFooter>
               </Card>
 
+{/* Sentiment Trends */}
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Sentiment Trends</CardTitle>
@@ -70,13 +73,14 @@ export function ReportsPage() {
                   <div className="text-sm">Analysis of sentiment trends over time with key insights.</div>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full" size="sm">
+                  {/* <Button className="w-full" size="sm">
                     <FileText className="mr-2 h-4 w-4" />
                     Generate
-                  </Button>
+                  </Button> */}
                 </CardFooter>
               </Card>
 
+{/* Call Analytics */}
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Call Analytics</CardTitle>
@@ -86,23 +90,25 @@ export function ReportsPage() {
                   <div className="text-sm">Detailed analysis of call durations, volumes, and outcomes.</div>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full" size="sm">
+                  {/* <Button className="w-full" size="sm">
                     <FileText className="mr-2 h-4 w-4" />
                     Generate
-                  </Button>
+                  </Button> */}
                 </CardFooter>
               </Card>
             </div>
 
+{/* Report generator */}
             <Card>
               <CardHeader>
-                <CardTitle>Custom Report Generator</CardTitle>
-                <CardDescription>Create a custom report by selecting the data you want to include</CardDescription>
+                <CardTitle>Report Generator</CardTitle>
+                <CardDescription>Create a  report by selecting the data you want to include</CardDescription>
               </CardHeader>
               <CardContent>
                 <ReportGenerator />
               </CardContent>
             </Card>
+
           </TabsContent>
           <TabsContent value="saved" className="space-y-4">
             <Card>

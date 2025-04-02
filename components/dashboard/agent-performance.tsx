@@ -10,12 +10,15 @@ import {
 } from "@/components/ui/chart"
 import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
+
+// Pie Chart Data
 const sentimentData = [
   { name: "Positive", value: 72, color: "#22c55e" },
   { name: "Neutral", value: 18, color: "#f59e0b" },
   { name: "Negative", value: 10, color: "#ef4444" },
 ]
 
+// Bar Chart Data
 const agentData = [
   {
     name: "Sarah",
@@ -46,10 +49,10 @@ const agentData = [
 
 export function AgentPerformance() {
   return (
-    <div className="grid grid-cols-1 gap-4">
+    <div className="grid grid-cols-1 gap-6">
       <Chart className="w-full aspect-square max-h-[300px]">
         <ChartContainer>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={200}>
             <PieChart>
               <Pie
                 data={sentimentData}
@@ -66,6 +69,7 @@ export function AgentPerformance() {
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
+
               <ChartTooltip
                 content={
                   <ChartTooltipContent
@@ -91,7 +95,7 @@ export function AgentPerformance() {
 
       <Chart className="w-full aspect-[4/3] max-h-[300px] mt-4">
         <ChartContainer>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={280}>
             <BarChart
               data={agentData}
               margin={{
@@ -101,11 +105,11 @@ export function AgentPerformance() {
                 bottom: 20,
               }}
             >
-              <XAxis dataKey="name" tickLine={false} axisLine={false} tickMargin={10} stroke="#888888" fontSize={12} />
+              <XAxis dataKey="name" tickLine={false} axisLine={false} tickMargin={20} stroke="#888888" fontSize={12} />
               <YAxis
                 tickLine={false}
                 axisLine={false}
-                tickMargin={10}
+                tickMargin={20}
                 stroke="#888888"
                 fontSize={12}
                 domain={[0, 5]}
