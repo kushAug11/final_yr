@@ -104,6 +104,7 @@ export function AgentPerformance() {
                 left: 10,
                 bottom: 20,
               }}
+              barCategoryGap="20%"
             >
               <XAxis dataKey="name" tickLine={false} axisLine={false} tickMargin={20} stroke="#888888" fontSize={12} />
               <YAxis
