@@ -40,9 +40,10 @@ export function DashboardPage() {
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="agents">Agent Performance</TabsTrigger>
+            {/* <TabsTrigger value="agents">Agent Performance</TabsTrigger> */}
             <TabsTrigger value="feedback">Feedback</TabsTrigger>
           </TabsList>
+          {/* Overview */}
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
@@ -89,7 +90,7 @@ export function DashboardPage() {
                   <CardDescription>Customer satisfaction and sentiment trends over time</CardDescription>
                 </CardHeader>
                 <CardContent className="pl-2">
-                  <Overview />
+                  <Overview />  {/*Feedback Overview Graphs */}
                 </CardContent>
               </Card>
               <Card className="col-span-3">
@@ -103,7 +104,9 @@ export function DashboardPage() {
               </Card>
             </div>
           </TabsContent>
-          <TabsContent value="agents" className="space-y-4">
+
+          {/* Agent Performance */}
+          {/* <TabsContent value="agents" className="space-y-4">
             <Card>
               <CardHeader>
                 <CardTitle>Agent Performance</CardTitle>
@@ -113,7 +116,9 @@ export function DashboardPage() {
                 <AgentPerformance />
               </CardContent>
             </Card>
-          </TabsContent>
+          </TabsContent> */}
+
+          {/* Feedback */}
           <TabsContent value="feedback" className="space-y-4">
             <Card>
               <CardHeader>
@@ -125,6 +130,8 @@ export function DashboardPage() {
               </CardContent>
             </Card>
           </TabsContent>
+
+
         </Tabs>
       </main>
     </div>
