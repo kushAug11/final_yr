@@ -1,9 +1,10 @@
 // src/utils/axiosInstance.ts
-
+import dotenv from 'dotenv';
+import { config } from 'dotenv';
 import axios from 'axios';
-
+config();
 const axiosInstance = axios.create({
-    baseURL: 'https://06ld2m59-8000.inc1.devtunnels.ms/', // Your FastAPI backend URL
+    baseURL: process.env.NEXT_PUBLIC_LINK, // Your FastAPI backend URL
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json',
