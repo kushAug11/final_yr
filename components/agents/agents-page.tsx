@@ -20,14 +20,54 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { addEmployee } from "@/lib/HelperFunction"// Import the API function
 
 export function AgentsPage() {
   const [date, setDate] = useState<Date | undefined>(new Date())
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null)
+  const [open, setOpen] = useState(false) // Control dialog open/close
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    uniqueEmployeeId: 0, // Assuming this is required; adjust as needed
+  })
+  const [error, setError] = useState<string | null>(null) // For error feedback
 
   const handleGenerateReport = () => {
-    // In a real app, this would trigger a report generation
     alert(`Generating agent performance report...`)
+  }
+
+  // Handle input changes in the form
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [id]: id === "uniqueEmployeeId" ? parseInt(value) || 0 : value, // Convert to number for uniqueEmployeeId
+    }))
+  }
+
+  // Handle form submission
+  const handleAddAgent = async () => {
+    try {
+      setError(null) // Clear previous errors
+      const { name, email, uniqueEmployeeId } = formData
+      if (!name || !email || !uniqueEmployeeId) {
+        setError("All fields are required")
+        return
+      }
+
+      const result = await addEmployee(name, email, uniqueEmployeeId)
+      console.log("Agent added:", result)
+      
+      // Reset form and close dialog on success
+      setFormData({ name: "", email: "", uniqueEmployeeId: 0 })
+      setOpen(false)
+      alert(`Agent ${name} added successfully!`) // Optional feedback
+    } catch (err) {
+      console.error("Failed to add agent:", err)
+      console.log(err)
+      setError("Failed to add agent. Please try again.")
+    }
   }
 
   return (
@@ -41,7 +81,7 @@ export function AgentsPage() {
               <Download className="h-3.5 w-3.5" />
               <span>Export Report</span>
             </Button>
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
                 <Button size="sm" className="h-8 gap-1">
                   <UserPlus className="h-3.5 w-3.5" />
@@ -58,23 +98,43 @@ export function AgentsPage() {
                     <Label htmlFor="name" className="text-right">
                       Name
                     </Label>
-                    <Input id="name" placeholder="Agent name" className="col-span-3" />
+                    <Input
+                      id="name"
+                      placeholder="Agent name"
+                      className="col-span-3"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="email" className="text-right">
                       Email
                     </Label>
-                    <Input id="email" placeholder="agent@example.com" className="col-span-3" />
+                    <Input
+                      id="email"
+                      placeholder="agent@example.com"
+                      className="col-span-3"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                    />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="department" className="text-right">
-                      Department
+                    <Label htmlFor="uniqueEmployeeId" className="text-right">
+                      Employee ID
                     </Label>
-                    <Input id="department" placeholder="Department" className="col-span-3" />
+                    <Input
+                      id="uniqueEmployeeId"
+                      type="number"
+                      placeholder="Unique Employee ID"
+                      className="col-span-3"
+                      value={formData.uniqueEmployeeId || ""}
+                      onChange={handleInputChange}
+                    />
                   </div>
+                  {error && <p className="text-red-500 text-sm col-span-4">{error}</p>}
                 </div>
                 <DialogFooter>
-                  <Button type="submit">Add Agent</Button>
+                  <Button onClick={handleAddAgent}>Add Agent</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
@@ -156,4 +216,3 @@ export function AgentsPage() {
     </div>
   )
 }
-

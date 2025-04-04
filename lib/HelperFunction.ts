@@ -4,18 +4,18 @@ import axiosInstance from "./axiosInstance";
 // Employee API Calls
 export const addEmployee = async (name: string, email: string, uniqueEmployeeId: number) => {
   const formData = new FormData();
+
+  console.log("Request URL:", axiosInstance.defaults.baseURL + '/admin/employee');
   formData.append('name', name);
   formData.append('email', email);
   formData.append('unique_employee_id', uniqueEmployeeId.toString());
 
   
-  try { 
+  
   const response = await axiosInstance.post('/admin/employee', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }, // Override for FormData
-  });}
-  catch (error) {
-    console.log('Error:', error);
-  }
+  });
+ 
 
   console.log('Response:', response.data); // Log the response for debugging
   return response.data;
@@ -24,12 +24,11 @@ export const addEmployee = async (name: string, email: string, uniqueEmployeeId:
 export const getAllEmployees = async () => {
     // Fetch all employees
 
-    try {
+    
   const response = await axiosInstance.get('/admin/employees');
-    }
-    catch (error) {
+  
       console.log('Error:', error);
-    }
+  
   console.log('All Employees:', response.data); // Log the response for debugging
   return response.data.employees;
 };
