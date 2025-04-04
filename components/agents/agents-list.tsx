@@ -1,104 +1,81 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
+import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { getAllEmployees } from "@/lib/HelperFunction"; // Adjust the import path as needed
 
+// Update the Agent interface to match your Employee schema
 interface Agent {
-  id: string
-  name: string
-  role: string
-  department: string
-  status: "online" | "offline" | "busy"
-  rating: number
+  id: string;               // Maps to _id from Employee
+  name: string;             // Maps to name from Employee
+  email: string;            // Maps to email from Employee
+  unique_employee_id: number; // Maps to unique_employee_id from Employee
+  status: "online" | "offline" | "busy"; // Placeholder, adjust as needed
+  rating: number;           // Placeholder, adjust as needed (e.g., from Analysis_result)
 }
 
-const agents: Agent[] = [
-  {
-    id: "a1",
-    name: "Sarah Johnson",
-    role: "Senior Agent",
-    department: "Technical Support",
-    status: "online",
-    rating: 4.8,
-  },
-  {
-    id: "a2",
-    name: "Michael Brown",
-    role: "Agent",
-    department: "Customer Service",
-    status: "online",
-    rating: 4.6,
-  },
-  {
-    id: "a3",
-    name: "Jessica Lee",
-    role: "Senior Agent",
-    department: "Billing Support",
-    status: "busy",
-    rating: 4.5,
-  },
-  {
-    id: "a4",
-    name: "David Wilson",
-    role: "Agent",
-    department: "Technical Support",
-    status: "offline",
-    rating: 4.3,
-  },
-  {
-    id: "a5",
-    name: "Emily Davis",
-    role: "Junior Agent",
-    department: "Customer Service",
-    status: "online",
-    rating: 4.2,
-  },
-  {
-    id: "a6",
-    name: "Robert Taylor",
-    role: "Agent",
-    department: "Billing Support",
-    status: "offline",
-    rating: 4.0,
-  },
-  {
-    id: "a7",
-    name: "Olivia Martin",
-    role: "Junior Agent",
-    department: "Technical Support",
-    status: "busy",
-    rating: 3.9,
-  },
-  {
-    id: "a8",
-    name: "James Johnson",
-    role: "Senior Agent",
-    department: "Customer Service",
-    status: "online",
-    rating: 4.7,
-  },
-]
-
 interface AgentsListProps {
-  onSelectAgent: (name: string) => void
-  selectedAgent: string | null
+  onSelectAgent: (name: string) => void;
+  selectedAgent: string | null;
 }
 
 export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [agents, setAgents] = useState<Agent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch employees from the database when the component mounts
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        setLoading(true);
+        const employees = await getAllEmployees(); // Call the API to get employees
+        // Map the employee data to the Agent interface
+        const mappedAgents: Agent[] = employees.map((employee: any) => ({
+          id: employee._id,
+          name: employee.name,
+          email: employee.email,
+          unique_employee_id: employee.unique_employee_id,
+          status: "offline", // Placeholder: You might need to derive this from another source
+          rating: 4.0,       // Placeholder: You might calculate this from Analysis_result
+        }));
+        setAgents(mappedAgents);
+      } catch (err) {
+        setError("Failed to fetch employees");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEmployees();
+  }, []);
 
   const filteredAgents = agents.filter(
     (agent) =>
       agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      agent.department.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+      agent.email.toLowerCase().includes(searchQuery.toLowerCase()) // Using email instead of department
+  );
+
+  if (loading) {
+    return <div>Loading agents...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="space-y-4">
-      <Input placeholder="Search agents..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+      <Input
+        placeholder="Search agents..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
       <ScrollArea className="h-[500px]">
         <div className="space-y-2">
           {filteredAgents.map((agent) => (
@@ -119,7 +96,7 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
               </Avatar>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium">{agent.name}</p>
-                <p className="text-xs text-muted-foreground truncate">{agent.department}</p>
+                <p className="text-xs text-muted-foreground truncate">{agent.email}</p> {/* Using email */}
               </div>
               <div className="flex flex-col items-end space-y-1">
                 <Badge
@@ -135,6 +112,5 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
         </div>
       </ScrollArea>
     </div>
-  )
+  );
 }
-

@@ -27,7 +27,7 @@ export const getAllEmployees = async () => {
     
   const response = await axiosInstance.get('/admin/employees');
   
-      console.log('Error:', error);
+  
   
   console.log('All Employees:', response.data); // Log the response for debugging
   return response.data.employees;
