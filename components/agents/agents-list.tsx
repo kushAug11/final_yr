@@ -17,6 +17,7 @@ interface Agent {
   rating: number;           // Placeholder, adjust as needed (e.g., from Analysis_result)
 }
 
+
 interface AgentsListProps {
   onSelectAgent: (name: string) => void;
   selectedAgent: string | null;

@@ -47,9 +47,24 @@ const agentData = [
   },
 ]
 
+
+// This function will also take the agent name and get total calls
+// averge rating
+// avg call duration 
+
+// and we have to figure out some way to display this in the chart 
+// We have to remove the 2nd bar graph from here 
+
+// if we can do some sort of some thing that can minimize the no of backend calls
+// but the 1 st priority is that we display this 
+
+
+// I am not sure of the approach but please refer agent feedback history component sigmiliarly we have to pass agent name through it 
 export function AgentPerformance() {
   return (
     <div className="grid grid-cols-1 gap-6">
+
+      {/* Pie Chart for Sentiment Analysis  this is needed */}
       <Chart className="w-full aspect-square max-h-[300px]">
         <ChartContainer>
           <ResponsiveContainer width="100%" height={200}>
@@ -86,12 +101,17 @@ export function AgentPerformance() {
             </PieChart>
           </ResponsiveContainer>
         </ChartContainer>
+
         <ChartLegend className="justify-center mt-4">
           {sentimentData.map((item) => (
             <ChartLegendItem key={item.name} name={item.name} color={item.color} />
           ))}
         </ChartLegend>
       </Chart>
+        
+        {/* Pie Chart for Sentiment Analysis End */}
+  
+        {/* Bar Chart for Agent Performance */}
 
       <Chart className="w-full aspect-[4/3] max-h-[300px] mt-4">
         <ChartContainer>

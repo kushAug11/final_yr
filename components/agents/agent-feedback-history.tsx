@@ -3,6 +3,8 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 
+
+//Aisa ek array bnade interface does this mean we have to create an array of this interface
 interface FeedbackItem {
   id: string
   date: string
@@ -12,12 +14,24 @@ interface FeedbackItem {
   comment: string
 }
 
+
+//Agent ka naam ais hoga 
 interface AgentFeedbackHistoryProps {
   agentName: string
 }
-
+// The function takes the employee name and fetches the no of calls 
+// POA can have 2 ways
+//1. idhar hi call mar do end point pe
+//2. ya fir helper function banake 
+//error boundary bhi dalni hogi i guess
 export function AgentFeedbackHistory({ agentName }: AgentFeedbackHistoryProps) {
   // This would normally be fetched based on the agent name
+  //here we have to add useEffect to fetch data from Api
+
+  //it will come and be stored in this array 
+
+  //I think we have to remove sentiment from right here
+
   const feedbackHistory: FeedbackItem[] = [
     {
       id: "f1",
@@ -97,14 +111,18 @@ export function AgentFeedbackHistory({ agentName }: AgentFeedbackHistoryProps) {
               <TableCell>{item.customer}</TableCell>
               <TableCell>{item.rating}/5</TableCell>
               <TableCell>
+                {/* Sentiment Badge */}
                 <Badge
                   variant={
                     item.sentiment === "positive" ? "success" : item.sentiment === "neutral" ? "warning" : "destructive"
                   }
                 >
+
                   {item.sentiment.charAt(0).toUpperCase() + item.sentiment.slice(1)}
                 </Badge>
+                {/* Sentiment Badge  End */}
               </TableCell>
+              {/* Comment We can use map function here agein to display the comment we will store it here */}
               <TableCell className="max-w-[300px] truncate">{item.comment}</TableCell>
             </TableRow>
           ))}
