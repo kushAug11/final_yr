@@ -19,12 +19,20 @@ export function FeedbackPage() {
     alert(`Generating feedback report...`)
   }
 
+  //This is the main page for the feedback section
+
+  // the other pages are child of this page
+
+  // useEffect to give a backend call to all call which employee etc
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div className="flex items-center justify-between">
+          {/* Change name to analysis  */}
           <h1 className="text-3xl font-bold tracking-tight">Feedback</h1>
           <div className="flex items-center gap-2">
+            {/* this has no utility to us so we have to remove it */}
             <DateRangePicker date={date} setDate={setDate} />
             <Button variant="outline" size="sm" className="h-8 gap-1" onClick={() => setShowFilters(!showFilters)}>
               <Filter className="h-3.5 w-3.5" />
@@ -48,6 +56,10 @@ export function FeedbackPage() {
             </CardContent>
           </Card>
         )}
+
+        {/* This is the feedback tab  have to discuss whether to keep this or remove this 
+        
+            - if we want to keep this  can use a filter function*/}
 
         <Tabs defaultValue="all" className="space-y-4">
           <TabsList>

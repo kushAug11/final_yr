@@ -29,6 +29,14 @@ import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 
+
+// Idhar saara khel khelna hai guru
+
+// we will either make a backend call here or will  make a backend call in feedback.tsx and pass in down as props or export a function 
+
+
+
+// i am not sure where this is exported to use but will figure out eventually
 export type Feedback = {
   id: string
   callId: string
@@ -41,6 +49,10 @@ export type Feedback = {
   duration: string
 }
 
+
+// THis the dummy data
+// but we will use a similiar mechanism alike to agentList.tsx 
+// udhar bhi same cheeze ho rhi thi
 const data: Feedback[] = [
   {
     id: "f1",
@@ -154,6 +166,12 @@ const data: Feedback[] = [
   },
 ]
 
+
+
+// we have to remove sentiment cal for both table and html as well
+
+// yaad hai voh select krne meh remove ho ja rha tha ye vhi hai i guess
+
 export const columns: ColumnDef<Feedback>[] = [
   {
     id: "select",
@@ -258,6 +276,12 @@ export const columns: ColumnDef<Feedback>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+
+            {/* This is the action menu for the feedback  isme sirf 2 chahiye hum logo ko 
+            
+                -genenate report
+                -Listen audio files
+            Remove everything else*/}
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => navigator.clipboard.writeText(feedback.id)}>
               Copy feedback ID
@@ -272,6 +296,9 @@ export const columns: ColumnDef<Feedback>[] = [
     },
   },
 ]
+
+// This is responsible for generating the table 
+// it is using the react-table library
 
 export function RecentFeedback() {
   const [sorting, setSorting] = useState<SortingState>([])

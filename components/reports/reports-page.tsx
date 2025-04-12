@@ -10,6 +10,10 @@ import { ReportGenerator } from "@/components/reports/report-generator"
 import { SavedReports } from "@/components/reports/saved-reports"
 
 export function ReportsPage() {
+
+  // State to manage the selected date range
+  //we have to remove this 
+
   const [date, setDate] = useState<Date | undefined>(new Date())
 
   return (
@@ -17,6 +21,8 @@ export function ReportsPage() {
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold tracking-tight">Reports</h1>
+
+          {/* Date Range Picker koi kaam ni iska*/} 
           <div className="flex items-center gap-2">
             <DateRangePicker date={date} setDate={setDate} />
           </div>
@@ -25,6 +31,7 @@ export function ReportsPage() {
         <Tabs defaultValue="generate" className="space-y-4">
           <TabsList>
             <TabsTrigger value="generate">Generate Reports</TabsTrigger>
+            {/* Purane changes jo hatane the done by prayatharth  */}
             {/* <TabsTrigger value="saved">Saved Reports</TabsTrigger> */}
           </TabsList>
           <TabsContent value="generate" className="space-y-4">
@@ -39,6 +46,8 @@ export function ReportsPage() {
                   <div className="text-sm">Detailed performance metrics for all agents or individual agents.</div>
                 </CardContent>
                <CardFooter>
+
+
                   {/* <Button className="w-full" size="sm">
                     <FileText className="mr-2 h-4 w-4" />
                     Generate
