@@ -151,3 +151,14 @@ export const getAudio = async (callId: number) => {
   console.log('Get Audio Response:', response.data); // Log the response for debugging
   return URL.createObjectURL(response.data);
 };
+
+
+export async function fetchEmployeeSummary(employeeId) {
+  try {
+    const response = await axiosInstance.get(`/employee/${employeeId}/summary`);
+    return response.data; // Axios automatically parses JSON
+  } catch (error) {
+    console.error("Failed to fetch employee summary:", error);
+    throw error; // Re-throw the error to be handled by the caller
+  }
+}

@@ -59,7 +59,7 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
   const filteredAgents = agents.filter(
     (agent) =>
       agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      agent.email.toLowerCase().includes(searchQuery.toLowerCase()) // Using email instead of department
+      agent.unique_employee_id.toLowerCase().includes(searchQuery.toLowerCase()) // Using email instead of department
   );
 
   if (loading) {
@@ -85,7 +85,7 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
               className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer hover:bg-muted ${
                 selectedAgent === agent.name ? "bg-muted" : ""
               }`}
-              onClick={() => onSelectAgent(agent.name)}
+              onClick={() => onSelectAgent(agent.unique_employee_id)}
             >
               <Avatar className="h-10 w-10">
                 <AvatarFallback>
@@ -97,7 +97,7 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
               </Avatar>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium">{agent.name}</p>
-                <p className="text-xs text-muted-foreground truncate">{agent.email}</p> {/* Using email */}
+                <p className="text-xs text-muted-foreground truncate">{agent.unique_employee_id}</p> {/* Using email */}
               </div>
               <div className="flex flex-col items-end space-y-1">
                 <Badge
