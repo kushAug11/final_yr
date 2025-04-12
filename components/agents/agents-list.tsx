@@ -85,7 +85,7 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
               className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer hover:bg-muted ${
                 selectedAgent === agent.name ? "bg-muted" : ""
               }`}
-              onClick={() => onSelectAgent(agent.unique_employee_id)}
+              onClick={() => onSelectAgent(agent)}
             >
               <Avatar className="h-10 w-10">
                 <AvatarFallback>
@@ -100,12 +100,12 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
                 <p className="text-xs text-muted-foreground truncate">{agent.unique_employee_id}</p> {/* Using email */}
               </div>
               <div className="flex flex-col items-end space-y-1">
-                <Badge
+                {/* <Badge
                   variant={agent.status === "online" ? "success" : agent.status === "busy" ? "warning" : "outline"}
                   className="text-xs"
                 >
                   {agent.status}
-                </Badge>
+                </Badge> */}
                 <span className="text-xs">{agent.rating}/5</span>
               </div>
             </div>

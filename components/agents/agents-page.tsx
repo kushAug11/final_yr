@@ -43,7 +43,7 @@ export function AgentsPage() {
         setLoading(true);
         console.log("Fetching data for employee ID:", selectedAgent); // Debug log
         try {
-          const data = await fetchEmployeeSummary(selectedAgent);
+          const data = await fetchEmployeeSummary(selectedAgent.unique_employee_id);
           console.log("Fetched data:", data); // Debug log
           if (data && (data.average_score || data.total_calls || data.average_duration)) {
             setAgentData(data);
