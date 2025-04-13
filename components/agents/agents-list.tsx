@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { getAllEmployees } from "@/lib/HelperFunction"; // Adjust the import path as needed
+import { fetchEmployeeSummary, getAllEmployees } from "@/lib/HelperFunction"; // Adjust the import path as needed
 
 // Update the Agent interface to match your Employee schema
 interface Agent {
@@ -34,7 +34,8 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
     const fetchEmployees = async () => {
       try {
         setLoading(true);
-        const employees = await getAllEmployees(); // Call the API to get employees
+        const employees = await getAllEmployees(); 
+        const emp = await fetchEmployeeSummary(employees.unique_employee_id); // Call the API to get employees
         // Map the employee data to the Agent interface
         const mappedAgents: Agent[] = employees.map((employee: any) => ({
           id: employee._id,
@@ -42,7 +43,7 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
           email: employee.email,
           unique_employee_id: employee.unique_employee_id,
           status: "offline", // Placeholder: You might need to derive this from another source
-          rating: 4.0,       // Placeholder: You might calculate this from Analysis_result
+          rating: 4,       // Placeholder: You might calculate this from Analysis_result
         }));
         setAgents(mappedAgents);
       } catch (err) {

@@ -196,7 +196,7 @@ export function AgentsPage() {
                 <Tabs defaultValue="metrics" className="space-y-4">
                   <TabsList>
                     <TabsTrigger value="metrics">Performance Metrics</TabsTrigger>
-                    <TabsTrigger value="feedback">Feedback History</TabsTrigger>
+                    {/* <TabsTrigger value="feedback">Feedback History</TabsTrigger> */}
                   </TabsList>
                   <TabsContent value="metrics" className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -210,7 +210,7 @@ export function AgentsPage() {
                               ? agentData.average_score.toFixed(2)
                               : "N/A"}
                           </div>
-                          <p className="text-xs text-muted-foreground">+0.3 from last month</p>
+                          {/* <p className="text-xs text-muted-foreground">+0.3 from last month</p> */}
                         </CardContent>
                       </Card>
 
@@ -222,7 +222,7 @@ export function AgentsPage() {
                           <div className="text-2xl font-bold">
                             {agentData?.total_calls ? agentData.total_calls : "N/A"}
                           </div>
-                          <p className="text-xs text-muted-foreground">+12 from last month</p>
+                          {/* <p className="text-xs text-muted-foreground">+12 from last month</p> */}
                         </CardContent>
                       </Card>
 
@@ -234,20 +234,20 @@ export function AgentsPage() {
                           <div className="text-2xl font-bold">
                             {agentData?.average_duration
                               ? `${Math.floor(agentData.average_duration / 60)}m ${
-                                  agentData.average_duration % 60
+                                  (agentData.average_duration % 60).toFixed(0)
                                 }s`
                               : "N/A"}
                           </div>
-                          <p className="text-xs text-muted-foreground">-45s from last month</p>
+                          {/* <p className="text-xs text-muted-foreground">-45s from last month</p> */}
                         </CardContent>
                       </Card>
                     </div>
                     <AgentPerformance data={agentData} />
                   </TabsContent>
 
-                  <TabsContent value="feedback">
+                  {/* <TabsContent value="feedback">
                     <AgentFeedbackHistory agentName={selectedAgent} data={agentData?.calls} />
-                  </TabsContent>
+                  </TabsContent> */}
                 </Tabs>
               ) : (
                 <div className="flex items-center justify-center h-64 text-muted-foreground">
