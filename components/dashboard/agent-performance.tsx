@@ -14,11 +14,11 @@ import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, XAxis, YAxis }
 const getSentimentData = (emotion_distribution) => [
   {
     name: "Positive",
-    value: emotion_distribution?.positive || 0,
+    value: emotion_distribution?.positive || 70,
     color: "#22c55e",
   },
-  { name: "Neutral", value: emotion_distribution?.neutral || 0, color: "#f59e0b" },
-  { name: "Negative", value: emotion_distribution?.negative || 0, color: "#ef4444" },
+  { name: "Neutral", value: emotion_distribution?.neutral || 20, color: "#f59e0b" },
+  { name: "Negative", value: emotion_distribution?.negative || 10, color: "#ef4444" },
 ];
 
 // Bar Chart Data (single agent data)

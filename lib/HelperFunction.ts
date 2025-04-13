@@ -161,7 +161,7 @@ export async function fetchEmployeeSummary(employeeId) {
     console.error("Failed to fetch employee summary:", error);
     throw error; // Re-throw the error to be handled by the caller
   }
-}
+} 
 
 export const getAllCallsSummary = async () => {
   // Fetch all calls summary
@@ -170,3 +170,15 @@ export const getAllCallsSummary = async () => {
   console.log('All Calls Summary:', response.data); // Log the response for debugging
   return response.data.calls; // Adjust 'calls' based on actual response structure
 };
+
+export async function fetchCallAnalysis(callId: string) {
+  try {
+    const response = await axiosInstance.get(`/call-analysis/${callId}`);
+    return response.data; // Axios automatically parses JSON
+  } catch (error) {
+    console.error(`Failed to fetch call analysis for call_id ${callId}:`, error);
+    throw error; // Re-throw the error to be handled by the caller
+  }
+}
+
+

@@ -127,6 +127,8 @@ export const columns: ColumnDef<Feedback>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
+
+          
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => console.log(`Generate report for call ${feedback.callId}`)}>
