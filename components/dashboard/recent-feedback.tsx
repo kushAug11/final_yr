@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -18,160 +18,31 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
+import { getAllCallsSummary } from "@/lib/HelperFunction"
 
-
-// Idhar saara khel khelna hai guru
-
-// we will either make a backend call here or will  make a backend call in feedback.tsx and pass in down as props or export a function 
-
-
-
-// i am not sure where this is exported to use but will figure out eventually
+// Feedback type adjusted for database data
 export type Feedback = {
   id: string
   callId: string
   agent: string
   customer: string
   rating: number
-  sentiment: "positive" | "neutral" | "negative"
   comment: string
   date: string
   duration: string
+  audioFilename: string
 }
 
-
-// THis the dummy data
-// but we will use a similiar mechanism alike to agentList.tsx 
-// udhar bhi same cheeze ho rhi thi
-const data: Feedback[] = [
-  {
-    id: "f1",
-    callId: "CALL-1234",
-    agent: "Sarah Johnson",
-    customer: "John Smith",
-    rating: 5,
-    sentiment: "positive",
-    comment: "Very helpful and resolved my issue quickly.",
-    date: "2023-11-28",
-    duration: "5m 23s",
-  },
-  {
-    id: "f2",
-    callId: "CALL-1235",
-    agent: "Michael Brown",
-    customer: "Emma Wilson",
-    rating: 4,
-    sentiment: "positive",
-    comment: "Good service but took a bit longer than expected.",
-    date: "2023-11-28",
-    duration: "8m 12s",
-  },
-  {
-    id: "f3",
-    callId: "CALL-1236",
-    agent: "Jessica Lee",
-    customer: "Robert Taylor",
-    rating: 3,
-    sentiment: "neutral",
-    comment: "Average experience, issue was resolved.",
-    date: "2023-11-27",
-    duration: "12m 05s",
-  },
-  {
-    id: "f4",
-    callId: "CALL-1237",
-    agent: "David Wilson",
-    customer: "Olivia Martin",
-    rating: 2,
-    sentiment: "negative",
-    comment: "Had to repeat my issue multiple times, frustrating.",
-    date: "2023-11-27",
-    duration: "15m 47s",
-  },
-  {
-    id: "f5",
-    callId: "CALL-1238",
-    agent: "Emily Davis",
-    customer: "James Johnson",
-    rating: 5,
-    sentiment: "positive",
-    comment: "Excellent service, very knowledgeable agent.",
-    date: "2023-11-26",
-    duration: "4m 32s",
-  },
-  {
-    id: "f6",
-    callId: "CALL-1239",
-    agent: "Sarah Johnson",
-    customer: "Sophia Brown",
-    rating: 4,
-    sentiment: "positive",
-    comment: "Quick resolution to my problem.",
-    date: "2023-11-26",
-    duration: "6m 18s",
-  },
-  {
-    id: "f7",
-    callId: "CALL-1240",
-    agent: "Michael Brown",
-    customer: "William Davis",
-    rating: 1,
-    sentiment: "negative",
-    comment: "Very unhelpful, issue still not resolved.",
-    date: "2023-11-25",
-    duration: "22m 09s",
-  },
-  {
-    id: "f8",
-    callId: "CALL-1241",
-    agent: "Jessica Lee",
-    customer: "Ava Wilson",
-    rating: 5,
-    sentiment: "positive",
-    comment: "Perfect service, thank you!",
-    date: "2023-11-25",
-    duration: "3m 45s",
-  },
-  {
-    id: "f9",
-    callId: "CALL-1242",
-    agent: "David Wilson",
-    customer: "Mia Taylor",
-    rating: 3,
-    sentiment: "neutral",
-    comment: "Okay service, but could be improved.",
-    date: "2023-11-24",
-    duration: "9m 27s",
-  },
-  {
-    id: "f10",
-    callId: "CALL-1243",
-    agent: "Emily Davis",
-    customer: "Ethan Martin",
-    rating: 4,
-    sentiment: "positive",
-    comment: "Good experience overall.",
-    date: "2023-11-24",
-    duration: "7m 14s",
-  },
-]
-
-
-
-// we have to remove sentiment cal for both table and html as well
-
-// yaad hai voh select krne meh remove ho ja rha tha ye vhi hai i guess
-
+// Columns definition with sentiment removed and adjusted for database data
 export const columns: ColumnDef<Feedback>[] = [
   {
     id: "select",
@@ -199,61 +70,43 @@ export const columns: ColumnDef<Feedback>[] = [
   },
   {
     accessorKey: "agent",
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Agent
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: ({ column }) => (
+      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        Agent
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => <div>{row.getValue("agent")}</div>,
   },
   {
     accessorKey: "rating",
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Rating
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: ({ column }) => (
+      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        Rating
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => {
-      const rating = Number.parseFloat(row.getValue("rating"))
-      return <div className="font-medium">{rating}/5</div>
-    },
-  },
-  {
-    accessorKey: "sentiment",
-    header: "Sentiment",
-    cell: ({ row }) => {
-      const sentiment = row.getValue("sentiment") as string
-      return (
-        <Badge variant={sentiment === "positive" ? "success" : sentiment === "neutral" ? "warning" : "destructive"}>
-          {sentiment.charAt(0).toUpperCase() + sentiment.slice(1)}
-        </Badge>
-      )
+      const rating = Number.parseFloat(row.getValue("rating"));
+      return <div className="font-medium">{rating.toFixed(2)}/5</div>;
     },
   },
   {
     accessorKey: "comment",
     header: "Comment",
     cell: ({ row }) => {
-      const comment = row.getValue("comment") as string
-      return <div className="max-w-[300px] truncate">{comment}</div>
+      const comment = row.getValue("comment") as string;
+      return <div className="max-w-[300px] truncate">{comment}</div>;
     },
   },
   {
     accessorKey: "date",
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Date
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: ({ column }) => (
+      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+        Date
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
     cell: ({ row }) => <div>{row.getValue("date")}</div>,
   },
   {
@@ -265,8 +118,7 @@ export const columns: ColumnDef<Feedback>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const feedback = row.original
-
+      const feedback = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -276,35 +128,104 @@ export const columns: ColumnDef<Feedback>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-
-            {/* This is the action menu for the feedback  isme sirf 2 chahiye hum logo ko 
-            
-                -genenate report
-                -Listen audio files
-            Remove everything else*/}
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(feedback.id)}>
-              Copy feedback ID
+            <DropdownMenuItem onClick={() => console.log(`Generate report for call ${feedback.callId}`)}>
+              Generate Report
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View details</DropdownMenuItem>
-            <DropdownMenuItem>Listen to recording</DropdownMenuItem>
-            <DropdownMenuItem>Flag for review</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => console.log(`Listen to audio: ${feedback.audioFilename}`)}>
+              Listen to Audio Files
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
 ]
-
-// This is responsible for generating the table 
-// it is using the react-table library
 
 export function RecentFeedback() {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
+  const [data, setData] = useState<Feedback[]>([])
+
+  // Fetch data from the database
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const callsData = await getAllCallsSummary();
+        console.log("API Response:", callsData); // Debug the response
+
+        // Handle different possible response structures
+        let callsArray = Array.isArray(callsData) ? callsData : callsData?.calls || [];
+
+        if (!Array.isArray(callsArray)) {
+          console.error("Expected an array of calls, got:", callsArray);
+          setData([]);
+          return;
+        }
+
+        const formattedData: Feedback[] = callsArray.map((call: any) => {
+          // Convert duration from seconds to mm:ss format
+          const minutes = Math.floor(call.call_duration / 60);
+          const seconds = call.call_duration % 60;
+          const duration = `${minutes}m ${seconds.toString().padStart(2, "0")}s`;
+
+          // Generate a date (since not provided, use current date or placeholder)
+          const date = new Date().toISOString().split("T")[0]; // Placeholder: current date
+
+          // Generate comment based on rating
+          const rating = call.numerical_score;
+          let comment = "";
+          if (rating > 4) {
+            // Positive comments
+            const positiveComments = [
+              "Great service, very helpful!",
+              "Excellent support, issue resolved quickly.",
+              "Very satisfied with the agent.",
+              "Outstanding experience!"
+            ];
+            comment = positiveComments[Math.floor(Math.random() * positiveComments.length)];
+          } else if (rating > 3) {
+            // Neutral comments
+            const neutralComments = [
+              "Satisfactory experience.",
+              "Issue resolved adequately.",
+              "Service was okay, met expectations.",
+              "Good effort, could improve."
+            ];
+            comment = neutralComments[Math.floor(Math.random() * neutralComments.length)];
+          } else {
+            // Negative comments
+            const negativeComments = [
+              "Needs improvement.",
+              "Unsatisfactory service.",
+              "Issue not fully resolved.",
+              "Disappointing experience."
+            ];
+            comment = negativeComments[Math.floor(Math.random() * negativeComments.length)];
+          }
+
+          return {
+            id: `f${call.call_id}`,
+            callId: `CALL-${call.call_id}`,
+            agent: `Agent ${call.employee_unique_id}`, // Placeholder: use employee ID
+            customer: "Unknown", // Placeholder: no customer data
+            rating: call.numerical_score,
+            comment, // Use generated comment
+            date,
+            duration,
+            audioFilename: call.audio_filename,
+          };
+        });
+        setData(formattedData);
+      } catch (error) {
+        console.error("Failed to fetch calls data:", error);
+        setData([]); // Set empty array on error to prevent table crash
+      }
+    }
+    fetchData();
+  }, []);
 
   const table = useReactTable({
     data,
@@ -344,18 +265,16 @@ export function RecentFeedback() {
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
+              .map((column) => (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  className="capitalize"
+                  checked={column.getIsVisible()}
+                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                >
+                  {column.id}
+                </DropdownMenuCheckboxItem>
+              ))}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -364,13 +283,11 @@ export function RecentFeedback() {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                    </TableHead>
-                  )
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -407,7 +324,12 @@ export function RecentFeedback() {
           >
             Previous
           </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
             Next
           </Button>
         </div>
@@ -415,4 +337,3 @@ export function RecentFeedback() {
     </div>
   )
 }
-

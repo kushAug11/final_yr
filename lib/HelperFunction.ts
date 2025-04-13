@@ -162,3 +162,11 @@ export async function fetchEmployeeSummary(employeeId) {
     throw error; // Re-throw the error to be handled by the caller
   }
 }
+
+export const getAllCallsSummary = async () => {
+  // Fetch all calls summary
+  const response = await axiosInstance.get('/admin/calls');
+  
+  console.log('All Calls Summary:', response.data); // Log the response for debugging
+  return response.data.calls; // Adjust 'calls' based on actual response structure
+};

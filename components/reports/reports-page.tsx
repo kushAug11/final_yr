@@ -24,7 +24,7 @@ export function ReportsPage() {
 
           {/* Date Range Picker koi kaam ni iska*/} 
           <div className="flex items-center gap-2">
-            <DateRangePicker date={date} setDate={setDate} />
+            {/* <DateRangePicker date={date} setDate={setDate} /> */}
           </div>
         </div>
 

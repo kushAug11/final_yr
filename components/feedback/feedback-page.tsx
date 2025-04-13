@@ -10,6 +10,7 @@ import { RecentFeedback } from "@/components/dashboard/recent-feedback"
 import { FeedbackAnalysis } from "@/components/feedback/feedback-analysis"
 import { FeedbackFilters } from "@/components/feedback/feedback-filters"
 
+
 export function FeedbackPage() {
   const [date, setDate] = useState<Date | undefined>(new Date())
   const [showFilters, setShowFilters] = useState(false)
@@ -33,7 +34,7 @@ export function FeedbackPage() {
           <h1 className="text-3xl font-bold tracking-tight">Feedback</h1>
           <div className="flex items-center gap-2">
             {/* this has no utility to us so we have to remove it */}
-            <DateRangePicker date={date} setDate={setDate} />
+            {/* <DateRangePicker date={date} setDate={setDate} /> */}
             <Button variant="outline" size="sm" className="h-8 gap-1" onClick={() => setShowFilters(!showFilters)}>
               <Filter className="h-3.5 w-3.5" />
               <span>Filters</span>

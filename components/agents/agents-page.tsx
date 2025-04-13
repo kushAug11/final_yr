@@ -100,7 +100,7 @@ export function AgentsPage() {
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold tracking-tight">Agents</h1>
           <div className="flex items-center gap-2">
-            <DateRangePicker date={date} setDate={setDate} />
+            {/* <DateRangePicker date={date} setDate={setDate} /> */}
             <Button variant="outline" size="sm" className="h-8 gap-1" onClick={handleGenerateReport}>
               <Download className="h-3.5 w-3.5" />
               <span>Export Report</span>
@@ -183,7 +183,7 @@ export function AgentsPage() {
               <CardTitle>Agent Performance</CardTitle>
               <CardDescription>
                 {selectedAgent
-                  ? `Performance metrics for ${selectedAgent}`
+                  ? `Performance metrics for Employee`
                   : "Select an agent to view their performance"}
               </CardDescription>
             </CardHeader>
