@@ -35,7 +35,8 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
       try {
         setLoading(true);
         const employees = await getAllEmployees(); 
-        const emp = await fetchEmployeeSummary(employees.unique_employee_id); // Call the API to get employees
+         const emp = await fetchEmployeeSummary(employees.unique_employee_id||1001); // Call the API to get employees
+        
         // Map the employee data to the Agent interface
         const mappedAgents: Agent[] = employees.map((employee: any) => ({
           id: employee._id,
@@ -54,7 +55,7 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
       }
     };
 
-    fetchEmployees();
+     fetchEmployees();
   }, []);
 
   const filteredAgents = agents.filter(

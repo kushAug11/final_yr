@@ -44,7 +44,7 @@ export function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElemen
       >
         Feedback
       </Link>
-      <Link
+      {/* <Link
         href="/reports"
         className={cn(
           "text-sm font-medium transition-colors hover:text-primary",
@@ -52,7 +52,7 @@ export function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElemen
         )}
       >
         Reports
-      </Link>
+      </Link> */}
     </nav>
   )
 }

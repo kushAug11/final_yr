@@ -1,6 +1,6 @@
-"use client"
-
-import { useState, useEffect } from "react"
+"use client";
+import { useRouter } from 'next/navigation'; // Change to next/navigation
+import { useState, useEffect } from "react";
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -12,10 +12,10 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+} from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,23 +24,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { getAllCallsSummary } from "@/lib/HelperFunction"
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { getAllCallsSummary } from "@/lib/HelperFunction";
 
 // Feedback type adjusted for database data
 export type Feedback = {
-  id: string
-  callId: string
-  agent: string
-  customer: string
-  rating: number
-  comment: string
-  date: string
-  duration: string
-  audioFilename: string
-}
+  id: string;
+  callId: string;
+  agent: string;
+  customer: string;
+  rating: number;
+  comment: string;
+  date: string;
+  duration: string;
+  audioFilename: string;
+};
 
 // Columns definition with sentiment removed and adjusted for database data
 export const columns: ColumnDef<Feedback>[] = [
@@ -119,6 +119,8 @@ export const columns: ColumnDef<Feedback>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const feedback = row.original;
+      const router = useRouter();
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -127,11 +129,11 @@ export const columns: ColumnDef<Feedback>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-
-          
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => console.log(`Generate report for call ${feedback.callId}`)}>
+            <DropdownMenuItem
+              onClick={() => router.push(`/reports?callId=${feedback.callId}`)}
+            >
               Generate Report
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => console.log(`Listen to audio: ${feedback.audioFilename}`)}>
@@ -142,14 +144,14 @@ export const columns: ColumnDef<Feedback>[] = [
       );
     },
   },
-]
+];
 
 export function RecentFeedback() {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState<Feedback[]>([])
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [data, setData] = useState<Feedback[]>([]);
 
   // Fetch data from the database
   useEffect(() => {
@@ -185,7 +187,7 @@ export function RecentFeedback() {
               "Great service, very helpful!",
               "Excellent support, issue resolved quickly.",
               "Very satisfied with the agent.",
-              "Outstanding experience!"
+              "Outstanding experience!",
             ];
             comment = positiveComments[Math.floor(Math.random() * positiveComments.length)];
           } else if (rating > 3) {
@@ -194,7 +196,7 @@ export function RecentFeedback() {
               "Satisfactory experience.",
               "Issue resolved adequately.",
               "Service was okay, met expectations.",
-              "Good effort, could improve."
+              "Good effort, could improve.",
             ];
             comment = neutralComments[Math.floor(Math.random() * neutralComments.length)];
           } else {
@@ -203,7 +205,7 @@ export function RecentFeedback() {
               "Needs improvement.",
               "Unsatisfactory service.",
               "Issue not fully resolved.",
-              "Disappointing experience."
+              "Disappointing experience.",
             ];
             comment = negativeComments[Math.floor(Math.random() * negativeComments.length)];
           }
@@ -246,7 +248,7 @@ export function RecentFeedback() {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   return (
     <div className="w-full">
@@ -337,5 +339,5 @@ export function RecentFeedback() {
         </div>
       </div>
     </div>
-  )
+  );
 }
