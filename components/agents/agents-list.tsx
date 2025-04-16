@@ -44,7 +44,7 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
           email: employee.email,
           unique_employee_id: employee.unique_employee_id,
           status: "offline", // Placeholder: You might need to derive this from another source
-          rating: 4,       // Placeholder: You might calculate this from Analysis_result
+               // Placeholder: You might calculate this from Analysis_result
         }));
         setAgents(mappedAgents);
       } catch (err) {
@@ -108,7 +108,7 @@ export function AgentsList({ onSelectAgent, selectedAgent }: AgentsListProps) {
                 >
                   {agent.status}
                 </Badge> */}
-                <span className="text-xs">{agent.rating}/5</span>
+                {/* <span className="text-xs">{agent.rating}/5</span> */}
               </div>
             </div>
           ))}
