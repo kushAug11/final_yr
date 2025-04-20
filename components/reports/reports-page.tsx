@@ -1,5 +1,6 @@
 "use client";
 
+import AudioPlayer from "@/components/reports/audio";
 import { useState, useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -281,6 +282,16 @@ export function ReportsPage() {
                     <p><strong>Agent Competence Score:</strong> {callData.scorecard_A.score}</p>
                     <p><strong>Emotion Score:</strong> {callData.scorecard_B.score}</p>
                     <p><strong>Agent ID:</strong> {1000 + callData.call_id || "Unknown (not provided)"}</p>
+                  </div>
+
+                  {/* Audio Player */}
+                  <div>
+                    <h3 className="text-lg font-semibold">Audio Playback</h3>
+                    {callData?.link ? (
+                      <AudioPlayer src={callData.link} />
+                    ) : (
+                      <p className="text-sm text-muted-foreground">Audio link not available for this call.</p>
+                    )}
                   </div>
 
                   {/* Charts */}

@@ -51,7 +51,7 @@ export function DashboardPage() {
                   <CardTitle className="text-sm font-medium">Total Calls</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">1,284</div>
+                  <div className="text-2xl font-bold">6</div>
                   <p className="text-xs text-muted-foreground">+12.5% from last month</p>
                 </CardContent>
               </Card>

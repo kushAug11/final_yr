@@ -4,7 +4,7 @@ import { config } from 'dotenv';
 import axios from 'axios';
 config();
 const axiosInstance = axios.create({
-    baseURL: 'https://06ld2m59-8000.inc1.devtunnels.ms', // Your FastAPI backend URL
+    baseURL: 'http://127.0.0.1:8000', // Your FastAPI backend URL
     timeout: 15000,
     headers: {
         'Content-Type': 'application/json',
